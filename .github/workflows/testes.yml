@@ -1,0 +1,21 @@
+name: Testes do Spring Boot
+
+on:
+    push:
+
+jobs:
+    testes:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Baixar o código
+              uses: actions/checkout@v6
+
+            - name: Configurar Java 21
+              uses: actions/setup-java@v4
+              with:
+                distribution: temurin
+                java-version: '21'
+
+            - name: Executar testes
+              working-directory: 08-spring-boot-do-zero
+              run: ./mvnw test
