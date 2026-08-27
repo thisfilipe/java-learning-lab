@@ -1,38 +1,54 @@
 package com.filipeleal.springbootaprendizado;
 
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+@SpringBootTest
 public class TaskServiceTest {
-    TaskService taskService = new TaskService();
+    private final TaskService taskService;
+    private final TaskRepository taskRepository;
+
+    @Autowired
+    public TaskServiceTest(TaskRepository taskRepository) {
+        this.taskService = new TaskService(taskRepository);
+        this.taskRepository = taskRepository;
+    }
+
+    @BeforeEach
+    void clearData() {
+        taskRepository.deleteAll();
+    }
 
     @Test
     void shouldCreateTask() {
         Task task = taskService.createTask("JUnit Test");
-        assertEquals(1, task.getId());
+        assertTrue(task.getId() > 0);
         assertEquals("JUnit Test", task.getDescription());
         assertFalse(task.getDone());
     }
 
     @Test
-    void shouldAssignSequentialIds() {
+    void shouldAssignDifferentIds() {
         Task task1 = taskService.createTask("Task 1");
         Task task2 = taskService.createTask("Task 2");
-        assertEquals(1, task1.getId());
-        assertEquals(2, task2.getId());
+        assertNotEquals(task1.getId(), task2.getId());
     }
 
     @Test
     void shouldReturnTaskById() {
         Task task = taskService.createTask("Task with ID 1");
         Task taskById = taskService.getTaskById(task.getId());
-        assertSame(task, taskById);
+        assertEquals(task.getId(), taskById.getId());
+        assertEquals(task.getDescription(), taskById.getDescription());
     }
 
     @Test
@@ -47,21 +63,33 @@ public class TaskServiceTest {
         Task task2 = taskService.createTask("Task 2");
         List<Task> tasks = taskService.listTasks();
         assertEquals(2, tasks.size());
-        assertTrue(tasks.contains(task1));
-        assertTrue(tasks.contains(task2));
+
+        boolean task1Created = false;
+        boolean task2Created = false;
+
+        for (Task task : tasks) {
+            if (task.getId() == task1.getId()) {
+                task1Created = true;
+            } 
+            
+            if (task.getId() == task2.getId()) {
+                task2Created = true;
+            }
+        }
+
+        assertTrue(task1Created);
+        assertTrue(task2Created);
     }
 
     @Test
     void shouldCompleteExistingTask() {
-        // Arrange
         Task task = taskService.createTask("Task to Complete");
-
-        // Act
         Task taskCompleted = taskService.completeTask(task.getId());
-
-        //Assert
-        assertSame(task, taskCompleted);
+        assertEquals(task.getId(), taskCompleted.getId());
         assertTrue(taskCompleted.getDone());
+
+        Task taskAfterCompletion = taskService.getTaskById(task.getId());
+        assertTrue(taskAfterCompletion.getDone());
     }
 
     @Test
@@ -98,6 +126,7 @@ public class TaskServiceTest {
         taskService.deleteTask(task1.getId());
         Task remainingTask = taskService.getTaskById(task2.getId());
         assertNull(taskService.getTaskById(task1.getId()));
-        assertSame(task2, remainingTask);
+        assertEquals(task2.getId(), remainingTask.getId());
+        assertEquals(task2.getDescription(), remainingTask.getDescription());
     }
 }
