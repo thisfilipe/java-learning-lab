@@ -18,9 +18,9 @@ public class TaskServiceTest {
     private final TaskRepository taskRepository;
 
     @Autowired
-    public TaskServiceTest(TaskRepository taskRepository) {
-        this.taskService = new TaskService(taskRepository);
+    public TaskServiceTest(TaskRepository taskRepository, TaskService taskService) {
         this.taskRepository = taskRepository;
+        this.taskService = taskService;
     }
 
     @BeforeEach

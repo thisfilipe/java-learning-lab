@@ -25,13 +25,44 @@ public class TaskController {
     @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody Map<String, String> payload) {
         String description = payload.get("description");
-        Task task = taskService.createTask(description);
-        return ResponseEntity.status(HttpStatus.CREATED).body(task);
+        String categoryId = payload.get("categoryId");
+
+        if (categoryId == null) {
+            Task task = taskService.createTask(description);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(task);
+        }
+        
+        long categoryParsedId = Long.parseLong(categoryId);
+        Task task = taskService.createTask(description, categoryParsedId);
+        
+        if (task != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(task);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping
-    public List<Task> listTasks() {
-        return taskService.listTasks();
+    public ResponseEntity<List<Task>> listTasks() {
+        List<Task> tasks = taskService.listTasks();
+        
+        if (!tasks.isEmpty()) {
+            return ResponseEntity.ok(tasks);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @GetMapping("/completed")
+    public ResponseEntity<List<Task>> listCompletedTasks() {
+        List<Task> tasks = taskService.listCompletedTasks();
+         
+        if (!tasks.isEmpty()) {
+            return ResponseEntity.ok(tasks);
+        } else {
+            return ResponseEntity.noContent().build();
+        }
     }
 
     @GetMapping("/{id}")
