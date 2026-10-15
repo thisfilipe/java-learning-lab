@@ -4,7 +4,7 @@ import org.junit.Test;
 import org.junit.Before;
 import static org.junit.Assert.assertEquals;
 
-public class ProdutoTest {
+public class ProductTest {
     private Product product;
 
     @Before
@@ -14,7 +14,7 @@ public class ProdutoTest {
 
     @Test
     public void testTotalValue() {
-        assertEquals("Valor total do product deve ser 50.0", 50.0, product.totalValue(), 0.0);
+        assertEquals("Product total value should be 50.0", 50.0, product.totalValue(), 0.0);
     }
 
     @Test

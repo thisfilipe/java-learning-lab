@@ -17,7 +17,7 @@ public class Person {
     public void printInformation() {
         System.out.println("Name: " + this.name);
         System.out.println("Age: " + this.age);
-        System.out.println("Ativo: " + this.active);
+        System.out.println("Active: " + this.active);
         System.out.println("Email: " + this.email);
     }
 

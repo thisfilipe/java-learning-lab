@@ -2,9 +2,9 @@ public class ControlFlow {
     public static void main(String[] args) {
         int age = 25;
         if (age >= 18) {
-            System.out.println("Maior de age");
+            System.out.println("Adult");
         } else {
-            System.out.println("Menor de age");
+            System.out.println("Minor");
         }
 
         for (int i = 1; i <= 5; i++) {

@@ -8,7 +8,7 @@ public class Lists {
         names.add("Mary");
         names.add("Charles");
         names.add("Anna");
-        System.out.println("Nomes na list: " + names.size());
+        System.out.println("Names in the list: " + names.size());
 
         names.remove("Charles");
         System.out.println("Names after removal: " + names.size());

@@ -36,12 +36,12 @@ public class HelloController {
     }
 
     @GetMapping("/sum")
-    public String soma(@RequestParam(name = "number1", defaultValue = "0") int a, @RequestParam(name = "number2", defaultValue = "0") int b) {
+    public String sum(@RequestParam(name = "number1", defaultValue = "0") int a, @RequestParam(name = "number2", defaultValue = "0") int b) {
         return "Result: " + calculator.add(a, b);
     }
 
     @PostMapping("/echo")
-    public Map<String, Object> eco(@RequestBody Map<String, Object> payload) {
+    public Map<String, Object> echo(@RequestBody Map<String, Object> payload) {
         return payload;
     }
 }

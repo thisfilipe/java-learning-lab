@@ -8,11 +8,11 @@ public class MapDemo {
         agesByName.put("Mary", 30);
         agesByName.put("Charles", 28);
         agesByName.put("Anna", 22);
-        System.out.println("Idade de Mary: " + agesByName.get("Mary"));
+        System.out.println("Mary's age: " + agesByName.get("Mary"));
         System.out.println("-------------------------------");
 
         agesByName.remove("Charles");
-        System.out.println("Charles removido do mapa");
+        System.out.println("Charles removed from the map");
         agesByName.get("Charles");
         System.out.println("-------------------------------");
 
@@ -27,7 +27,7 @@ public class MapDemo {
             peopleCount++;
             if (peopleCount > 1) {
                 if (peopleCount == agesByName.size()) {
-                    System.out.print(" e ");
+                    System.out.print(" and ");
                 } else {
                     System.out.print(", ");
                 }
@@ -43,7 +43,7 @@ public class MapDemo {
             agesCount++;
             if (agesCount > 1) {
                 if (agesCount == agesByName.size()) {
-                    System.out.print(" e ");
+                    System.out.print(" and ");
                 } else {
                     System.out.print(", ");
                 }

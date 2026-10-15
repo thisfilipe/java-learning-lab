@@ -9,22 +9,22 @@ public class MapReview {
         products.put("Pasta", 3.99);
 
         System.out.println("Checking rice price...");
-        System.out.println("Preço do Rice: " + products.get("Rice"));
+        System.out.println("Rice price: " + products.get("Rice"));
 
         products.remove("Pasta");
-        System.out.println("Pasta removido, aplicando preço padrão...");
-        System.out.println("Preço do Pasta: " + products.getOrDefault("Pasta", 5.99));
+        System.out.println("Pasta removed, using a default price...");
+        System.out.println("Pasta price: " + products.getOrDefault("Pasta", 5.99));
 
-        System.out.println("Calculando preço de todos os products...");
+        System.out.println("Checking all product prices...");
         for (Map.Entry<String, Double> product : products.entrySet()) {
             System.out.println("Product: " + product.getKey() + " | Price: " + product.getValue());
         }
 
-        System.out.println("Calculando preço total dos products...");
+        System.out.println("Calculating the total price...");
         double totalPrice = 0.0;
         for (Double price : products.values()) {
             totalPrice += price;
         }
-        System.out.println("Preço total dos products: " + totalPrice);
+        System.out.println("Total product price: " + totalPrice);
     }
 }
