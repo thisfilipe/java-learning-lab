@@ -4,13 +4,12 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.filipe.estudos</groupId>
-  <artifactId>06-maven-basico</artifactId>
+  <groupId>com.filipe.learning</groupId>
+  <artifactId>maven-basics</artifactId>
   <version>1.0-SNAPSHOT</version>
 
-  <name>06-maven-basico</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <name>Maven Basics</name>
+  <!-- Educational project. No project website. -->
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

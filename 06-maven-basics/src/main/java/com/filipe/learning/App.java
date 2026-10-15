@@ -1,4 +1,4 @@
-package com.filipe.estudos;
+package com.filipe.learning;
 
 /**
  * Hello world!
