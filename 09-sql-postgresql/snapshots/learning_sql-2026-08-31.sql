@@ -1,0 +1,273 @@
+--
+-- PostgreSQL database dump
+--
+
+\restrict 5a8ZvZOcpHKSYuB6eiN17comobSRic7pQHzaI9YPpUt0d54q70YoEaCZlNba3RE
+
+-- Dumped from database version 18.6 (Ubuntu 18.6-0ubuntu0.26.04.1)
+-- Dumped by pg_dump version 18.6 (Ubuntu 18.6-0ubuntu0.26.04.1)
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+ALTER TABLE IF EXISTS ONLY public.orders DROP CONSTRAINT IF EXISTS pedidos_cliente_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.order_items DROP CONSTRAINT IF EXISTS itens_pedido_produto_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.order_items DROP CONSTRAINT IF EXISTS itens_pedido_pedido_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.products DROP CONSTRAINT IF EXISTS produtos_pkey;
+ALTER TABLE IF EXISTS ONLY public.orders DROP CONSTRAINT IF EXISTS pedidos_pkey;
+ALTER TABLE IF EXISTS ONLY public.order_items DROP CONSTRAINT IF EXISTS itens_pedido_pkey;
+ALTER TABLE IF EXISTS ONLY public.customers DROP CONSTRAINT IF EXISTS clientes_pkey;
+ALTER TABLE IF EXISTS ONLY public.customers DROP CONSTRAINT IF EXISTS clientes_email_key;
+DROP TABLE IF EXISTS public.products;
+DROP TABLE IF EXISTS public.orders;
+DROP TABLE IF EXISTS public.order_items;
+DROP TABLE IF EXISTS public.customers;
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: customers; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.customers (
+    id bigint NOT NULL,
+    name character varying(100) NOT NULL,
+    email character varying(150) NOT NULL,
+    active boolean DEFAULT true NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    phone character varying(20)
+);
+
+
+--
+-- Name: clientes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.customers ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.clientes_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Name: order_items; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.order_items (
+    order_id bigint NOT NULL,
+    product_id bigint NOT NULL,
+    quantity integer NOT NULL,
+    unit_price numeric(10,2) NOT NULL,
+    CONSTRAINT itens_pedido_preco_unitario_check CHECK ((unit_price > (0)::numeric)),
+    CONSTRAINT itens_pedido_quantidade_check CHECK ((quantity > 0))
+);
+
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.orders (
+    id bigint NOT NULL,
+    customer_id bigint NOT NULL,
+    created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    status character varying(20) DEFAULT 'PENDING'::character varying NOT NULL,
+    CONSTRAINT pedidos_status_check CHECK (((status)::text = ANY ((ARRAY['PENDING'::character varying, 'PAID'::character varying, 'CANCELLED'::character varying])::text[])))
+);
+
+
+--
+-- Name: pedidos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.orders ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.pedidos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Name: products; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.products (
+    id bigint NOT NULL,
+    name character varying(100) NOT NULL,
+    category character varying(50) NOT NULL,
+    price numeric(10,2) NOT NULL,
+    stock integer DEFAULT 0 NOT NULL,
+    CONSTRAINT produtos_estoque_check CHECK ((stock >= 0)),
+    CONSTRAINT produtos_preco_check CHECK ((price > (0)::numeric))
+);
+
+
+--
+-- Name: produtos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.products ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.produtos_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.customers (id, name, email, active, created_at, phone) FROM stdin;
+1	Ana Souza	ana@exemplo.com	t	2026-08-31 19:45:57.98637	\N
+3	Bruno Lima	bruno@exemplo.com	t	2026-08-31 19:50:25.106774	85999990001
+4	Carla Mendes	carla@exemplo.com	t	2026-08-31 19:50:25.106774	\N
+\.
+
+
+--
+-- Data for Name: order_items; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.order_items (order_id, product_id, quantity, unit_price) FROM stdin;
+1	1	1	250.00
+1	2	2	120.00
+2	3	1	900.00
+3	2	1	120.00
+3	4	2	150.00
+\.
+
+
+--
+-- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.orders (id, customer_id, created_at, status) FROM stdin;
+1	1	2026-08-31 20:34:22.011024	PAID
+2	1	2026-08-31 20:34:22.011024	PENDING
+3	3	2026-08-31 20:34:22.011024	PAID
+\.
+
+
+--
+-- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.products (id, name, category, price, stock) FROM stdin;
+1	Mechanical Keyboard	Peripherals	250.00	10
+2	Wireless Mouse	Peripherals	120.00	20
+3	24-inch Monitor	Monitors	900.00	8
+4	Desk Stand	Accessories	150.00	12
+\.
+
+
+--
+-- Name: clientes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.clientes_id_seq', 5, true);
+
+
+--
+-- Name: pedidos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.pedidos_id_seq', 3, true);
+
+
+--
+-- Name: produtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.produtos_id_seq', 4, true);
+
+
+--
+-- Name: customers clientes_email_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT clientes_email_key UNIQUE (email);
+
+
+--
+-- Name: customers clientes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT clientes_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: order_items itens_pedido_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.order_items
+    ADD CONSTRAINT itens_pedido_pkey PRIMARY KEY (order_id, product_id);
+
+
+--
+-- Name: orders pedidos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT pedidos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: products produtos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT produtos_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: order_items itens_pedido_pedido_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.order_items
+    ADD CONSTRAINT itens_pedido_pedido_id_fkey FOREIGN KEY (order_id) REFERENCES public.orders(id);
+
+
+--
+-- Name: order_items itens_pedido_produto_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.order_items
+    ADD CONSTRAINT itens_pedido_produto_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id);
+
+
+--
+-- Name: orders pedidos_cliente_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT pedidos_cliente_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+
+
+--
+-- PostgreSQL database dump complete
+--
+
+\unrestrict 5a8ZvZOcpHKSYuB6eiN17comobSRic7pQHzaI9YPpUt0d54q70YoEaCZlNba3RE
+

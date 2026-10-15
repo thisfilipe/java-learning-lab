@@ -1,0 +1,1 @@
+-- Step 5: planned practice with views, GRANT and REVOKE.

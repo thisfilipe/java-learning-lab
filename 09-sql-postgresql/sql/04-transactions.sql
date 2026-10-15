@@ -1,0 +1,1 @@
+-- Step 4: planned transactions practice. Compare COMMIT, ROLLBACK, DROP, DELETE and TRUNCATE.
