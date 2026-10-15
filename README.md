@@ -43,7 +43,7 @@ The [PostgreSQL module](09-sql-postgresql/README.md) is separate from the Spring
 
 - The earliest modules consist of standalone `.java` files. Compile and run each module separately; they are not one Maven project. The Java class names and learning examples have been translated to English.
 - Module 06 uses Maven and JUnit; module 08 uses Spring Boot and Maven Wrapper.
-- The [GitHub Actions workflow](.github/workflows/tests.yml) executes the Spring Boot tests on push.
+- The [GitHub Actions workflow](.github/workflows/tests.yml) compiles the standalone exercises and runs Maven, Spring Boot and PostgreSQL checks on push.
 - Some lessons are unfinished on purpose. This repository is a learning log, not a polished framework or reusable library.
 - [AGENTS.md](AGENTS.md) contains the learning preferences and context used by coding assistants.
 

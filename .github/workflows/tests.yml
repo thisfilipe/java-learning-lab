@@ -1,19 +1,87 @@
-name: Spring Boot tests
+name: Learning lab checks
 
 on:
   push:
 
+permissions:
+  contents: read
+
 jobs:
-  tests:
+  standalone-java:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-      - name: Set up Java 21
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '21'
-      - name: Run tests
+      - name: Compile standalone lessons independently
+        shell: bash
+        run: |
+          set -euo pipefail
+          for module in 01-hello-world 02-variables 03-control-flow 04-oop 05-interfaces 07-review; do
+            mkdir -p "/tmp/java-learning-lab/$module"
+            javac -d "/tmp/java-learning-lab/$module" "$module"/*.java
+          done
+
+  maven-basics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run Maven basics tests
+        working-directory: 06-maven-basics
+        run: mvn -B test
+
+  spring-boot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Run Spring Boot tests
         working-directory: 08-spring-boot-from-scratch
         run: ./mvnw test
+
+  postgresql:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_PASSWORD: example-only-test-password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      PGHOST: localhost
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: example-only-test-password
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - name: Run SQL lessons from a clean database
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql -d postgres -v ON_ERROR_STOP=1 -f 09-sql-postgresql/sql/01-structure.sql
+          psql -d postgres -v ON_ERROR_STOP=1 -f 09-sql-postgresql/sql/02-data.sql
+          psql -d postgres -v ON_ERROR_STOP=1 -f 09-sql-postgresql/sql/03-queries.sql
+          psql -d postgres -v ON_ERROR_STOP=1 -f 09-sql-postgresql/sql/03b-aggregations-from-scratch.sql
+      - name: Restore translated SQL snapshot to another database
+        shell: bash
+        run: |
+          set -euo pipefail
+          createdb java_learning_snapshot
+          psql -d java_learning_snapshot -v ON_ERROR_STOP=1 -f 09-sql-postgresql/snapshots/learning_sql-2026-08-31.sql
