@@ -1,46 +1,25 @@
-# Treino de SQL com PostgreSQL
+# PostgreSQL Practice
 
-Projeto isolado para praticar SQL diretamente no PostgreSQL, sem Spring, JPA ou
-Hibernate.
+A self-contained module for learning SQL directly in PostgreSQL, without Spring Boot, JPA or Hibernate.
 
-## Como vamos trabalhar
+## Files
 
-Os arquivos em `sql/` contêm enunciados, não soluções prontas. Escreva os
-comandos pedidos, salve o arquivo e avise. Cada etapa será executada no banco e
-o resultado será conferido antes da próxima.
+- `sql/01-estrutura.sql`: table creation, DDL and constraints
+- `sql/02-dados.sql`: sample data, inserts, updates, deletes and basic queries
+- `sql/03-consultas.sql`: joins, grouping, subqueries and UNION exercises
+- `sql/03b-agregacoes-do-zero.sql`: independent review of aggregation
+- `sql/04-transacoes.sql`: planned transactions practice
+- `sql/05-views-e-permissoes.sql`: planned views and access-control practice
+- `snapshots/`: small example database dump
+- `PROGRESS.md`: actual progress and the recommended next exercise
 
-## Ordem de hoje
+## Running locally
 
-1. `01-estrutura.sql` — SQL declarativa, DDL e restrições de integridade.
-2. `02-dados.sql` — `INSERT`, `UPDATE`, `DELETE`, `SELECT`, `WHERE` e
-   `ORDER BY`.
-3. `03-consultas.sql` — junções, agregações, `GROUP BY`, `HAVING`, subconsulta
-   e `UNION`.
-4. `04-transacoes.sql` — `COMMIT`, `ROLLBACK`, `DROP`, `DELETE` e `TRUNCATE`.
-5. `05-views-e-permissoes.sql` — views, `GRANT` e `REVOKE`.
-
-O domínio será uma pequena loja, com clientes, produtos, pedidos e itens de
-pedido. Isso permite enxergar chaves, relacionamentos e junções em dados
-concretos.
-
-## Conexão
-
-O servidor local usa PostgreSQL 18, e o banco isolado se chama `estudos_sql`.
-
-Na raiz deste projeto, abra o terminal interativo com:
+The exercises assume a local PostgreSQL instance with a database named `estudos_sql`. SQL table/column names and exercise code remain in Portuguese for compatibility with the original learning database; the overview is in English.
 
 ```bash
 psql -d estudos_sql
-```
-
-Para executar um arquivo inteiro e interromper no primeiro erro:
-
-```bash
 psql -d estudos_sql -v ON_ERROR_STOP=1 -f sql/01-estrutura.sql
 ```
 
-Comandos úteis dentro do `psql`:
-
-- `\dt` — listar tabelas;
-- `\d clientes` — descrever a estrutura da tabela `clientes`;
-- `\q` — sair.
+These scripts are learning artifacts: read and run them in order and expect intentionally incomplete sections. The database dump and sample rows are for exercises only, never production data.
