@@ -19,14 +19,14 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
-ALTER TABLE IF EXISTS ONLY public.orders DROP CONSTRAINT IF EXISTS pedidos_cliente_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.order_items DROP CONSTRAINT IF EXISTS itens_pedido_produto_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.order_items DROP CONSTRAINT IF EXISTS itens_pedido_pedido_id_fkey;
-ALTER TABLE IF EXISTS ONLY public.products DROP CONSTRAINT IF EXISTS produtos_pkey;
-ALTER TABLE IF EXISTS ONLY public.orders DROP CONSTRAINT IF EXISTS pedidos_pkey;
-ALTER TABLE IF EXISTS ONLY public.order_items DROP CONSTRAINT IF EXISTS itens_pedido_pkey;
-ALTER TABLE IF EXISTS ONLY public.customers DROP CONSTRAINT IF EXISTS clientes_pkey;
-ALTER TABLE IF EXISTS ONLY public.customers DROP CONSTRAINT IF EXISTS clientes_email_key;
+ALTER TABLE IF EXISTS ONLY public.orders DROP CONSTRAINT IF EXISTS orders_customer_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.order_items DROP CONSTRAINT IF EXISTS order_items_product_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.order_items DROP CONSTRAINT IF EXISTS order_items_order_id_fkey;
+ALTER TABLE IF EXISTS ONLY public.products DROP CONSTRAINT IF EXISTS products_pkey;
+ALTER TABLE IF EXISTS ONLY public.orders DROP CONSTRAINT IF EXISTS orders_pkey;
+ALTER TABLE IF EXISTS ONLY public.order_items DROP CONSTRAINT IF EXISTS order_items_pkey;
+ALTER TABLE IF EXISTS ONLY public.customers DROP CONSTRAINT IF EXISTS customers_pkey;
+ALTER TABLE IF EXISTS ONLY public.customers DROP CONSTRAINT IF EXISTS customers_email_key;
 DROP TABLE IF EXISTS public.products;
 DROP TABLE IF EXISTS public.orders;
 DROP TABLE IF EXISTS public.order_items;
@@ -50,11 +50,11 @@ CREATE TABLE public.customers (
 
 
 --
--- Name: clientes_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: customers_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.customers ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
-    SEQUENCE NAME public.clientes_id_seq
+    SEQUENCE NAME public.customers_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -72,8 +72,8 @@ CREATE TABLE public.order_items (
     product_id bigint NOT NULL,
     quantity integer NOT NULL,
     unit_price numeric(10,2) NOT NULL,
-    CONSTRAINT itens_pedido_preco_unitario_check CHECK ((unit_price > (0)::numeric)),
-    CONSTRAINT itens_pedido_quantidade_check CHECK ((quantity > 0))
+    CONSTRAINT order_items_unit_price_check CHECK ((unit_price > (0)::numeric)),
+    CONSTRAINT order_items_quantity_check CHECK ((quantity > 0))
 );
 
 
@@ -86,16 +86,16 @@ CREATE TABLE public.orders (
     customer_id bigint NOT NULL,
     created_at timestamp without time zone DEFAULT CURRENT_TIMESTAMP NOT NULL,
     status character varying(20) DEFAULT 'PENDING'::character varying NOT NULL,
-    CONSTRAINT pedidos_status_check CHECK (((status)::text = ANY ((ARRAY['PENDING'::character varying, 'PAID'::character varying, 'CANCELLED'::character varying])::text[])))
+    CONSTRAINT orders_status_check CHECK (((status)::text = ANY ((ARRAY['PENDING'::character varying, 'PAID'::character varying, 'CANCELLED'::character varying])::text[])))
 );
 
 
 --
--- Name: pedidos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: orders_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.orders ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
-    SEQUENCE NAME public.pedidos_id_seq
+    SEQUENCE NAME public.orders_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -114,17 +114,17 @@ CREATE TABLE public.products (
     category character varying(50) NOT NULL,
     price numeric(10,2) NOT NULL,
     stock integer DEFAULT 0 NOT NULL,
-    CONSTRAINT produtos_estoque_check CHECK ((stock >= 0)),
-    CONSTRAINT produtos_preco_check CHECK ((price > (0)::numeric))
+    CONSTRAINT products_stock_check CHECK ((stock >= 0)),
+    CONSTRAINT products_price_check CHECK ((price > (0)::numeric))
 );
 
 
 --
--- Name: produtos_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: products_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
 ALTER TABLE public.products ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
-    SEQUENCE NAME public.produtos_id_seq
+    SEQUENCE NAME public.products_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -181,88 +181,88 @@ COPY public.products (id, name, category, price, stock) FROM stdin;
 
 
 --
--- Name: clientes_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: customers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.clientes_id_seq', 5, true);
-
-
---
--- Name: pedidos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
---
-
-SELECT pg_catalog.setval('public.pedidos_id_seq', 3, true);
+SELECT pg_catalog.setval('public.customers_id_seq', 5, true);
 
 
 --
--- Name: produtos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Name: orders_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.produtos_id_seq', 4, true);
-
-
---
--- Name: customers clientes_email_key; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT clientes_email_key UNIQUE (email);
+SELECT pg_catalog.setval('public.orders_id_seq', 3, true);
 
 
 --
--- Name: customers clientes_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: products_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.products_id_seq', 4, true);
+
+
+--
+-- Name: customers customers_email_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.customers
-    ADD CONSTRAINT clientes_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT customers_email_key UNIQUE (email);
 
 
 --
--- Name: order_items itens_pedido_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: order_items order_items_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.order_items
-    ADD CONSTRAINT itens_pedido_pkey PRIMARY KEY (order_id, product_id);
+    ADD CONSTRAINT order_items_pkey PRIMARY KEY (order_id, product_id);
 
 
 --
--- Name: orders pedidos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT pedidos_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (id);
 
 
 --
--- Name: products produtos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.products
-    ADD CONSTRAINT produtos_pkey PRIMARY KEY (id);
+    ADD CONSTRAINT products_pkey PRIMARY KEY (id);
 
 
 --
--- Name: order_items itens_pedido_pedido_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.order_items
-    ADD CONSTRAINT itens_pedido_pedido_id_fkey FOREIGN KEY (order_id) REFERENCES public.orders(id);
-
-
---
--- Name: order_items itens_pedido_produto_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: order_items order_items_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.order_items
-    ADD CONSTRAINT itens_pedido_produto_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id);
+    ADD CONSTRAINT order_items_order_id_fkey FOREIGN KEY (order_id) REFERENCES public.orders(id);
 
 
 --
--- Name: orders pedidos_cliente_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+-- Name: order_items order_items_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.order_items
+    ADD CONSTRAINT order_items_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id);
+
+
+--
+-- Name: orders orders_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.orders
-    ADD CONSTRAINT pedidos_cliente_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customers(id);
+    ADD CONSTRAINT orders_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customers(id);
 
 
 --

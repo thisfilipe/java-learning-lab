@@ -36,7 +36,7 @@ Folders are ordered roughly by learning sequence.
 
 - Java 21, Maven/Maven Wrapper, JUnit 5.
 - Spring Boot task API has a controller/service/repository structure, task/category entities with a one-to-many relationship, and an in-memory H2 database.
-- PostgreSQL SQL training uses a separate local database (`learning_sql`). The SQL identifiers were translated into English. Older local databases containing the Portuguese schema must be migrated or rebuilt before executing the new scripts.
+- PostgreSQL SQL training uses a separate dedicated practice database (`java_learning_sql`). The SQL identifiers were translated into English. Older local databases containing the Portuguese schema must be migrated or rebuilt before executing the new scripts.
 - Do not assume the development environment is still Windows/WSL. Inspect the current environment before giving platform-specific commands.
 - For the Spring Boot example, run `cd 08-spring-boot-from-scratch && ./mvnw test` when changing its code. GitHub Actions also runs this module's tests.
 
