@@ -1,4 +1,4 @@
-package com.filipeleal.springbootaprendizado;
+package com.filipeleal.springlearning;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

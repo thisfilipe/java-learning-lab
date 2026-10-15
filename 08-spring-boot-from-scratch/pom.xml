@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.filipeleal</groupId>
-	<artifactId>springboot-aprendizado-do-zero</artifactId>
+	<artifactId>springboot-learning</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Spring Boot Aprendizado do Zero</name>
-	<description>Projeto de estudo sobre Spring Boot</description>
+	<name>Spring Boot Learning</name>
+	<description>A hands-on Spring Boot learning project</description>
 	<url/>
 	<licenses>
 		<license/>

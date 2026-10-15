@@ -1,4 +1,4 @@
-package com.filipeleal.springbootaprendizado;
+package com.filipeleal.springlearning;
 
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,4 +1,4 @@
-package com.filipeleal.springbootaprendizado;
+package com.filipeleal.springlearning;
 
 import java.util.Map;
 import java.time.Instant;
@@ -11,18 +11,18 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 public class HelloController {
-    private final Calculadora calculadora;
+    private final Calculator calculator;
 
     private final ApplicationAvailability availability;
 
-    public HelloController(Calculadora calculadora, ApplicationAvailability availability) {
-        this.calculadora = calculadora;
+    public HelloController(Calculator calculator, ApplicationAvailability availability) {
+        this.calculator = calculator;
         this.availability = availability;
     }
 
-    @GetMapping("/ola")
-    public String ola() {
-        return "Olá, Spring!";
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello, Spring!";
     }
 
     @GetMapping("/status")
@@ -30,17 +30,17 @@ public class HelloController {
         return Map.of("liveness", availability.getLivenessState().toString(), "readiness", availability.getReadinessState().toString(), "timestamp", Instant.now().toString());
     }
 
-    @GetMapping("/saudacao")
-    public String saudacao(@RequestParam(name = "nome", defaultValue = "visitante") String nome) {
-        return "Olá, " + nome + "!";
+    @GetMapping("/greeting")
+    public String greeting(@RequestParam(name = "name", defaultValue = "visitor") String name) {
+        return "Hello, " + name + "!";
     }
 
-    @GetMapping("/soma")
-    public String soma(@RequestParam(name = "numero1", defaultValue = "0") int a, @RequestParam(name = "numero2", defaultValue = "0") int b) {
-        return "Resultado: " + calculadora.somar(a, b);
+    @GetMapping("/sum")
+    public String soma(@RequestParam(name = "number1", defaultValue = "0") int a, @RequestParam(name = "number2", defaultValue = "0") int b) {
+        return "Result: " + calculator.add(a, b);
     }
 
-    @PostMapping("/eco")
+    @PostMapping("/echo")
     public Map<String, Object> eco(@RequestBody Map<String, Object> payload) {
         return payload;
     }
