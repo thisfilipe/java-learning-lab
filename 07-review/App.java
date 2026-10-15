@@ -3,32 +3,32 @@ import java.util.List;
 
 public class App {
     public static void main(String[] args) {
-        Produto produto1 = new Produto("Notebook", 2500.00, 3);
-        Produto produto2 = new Produto("Smartphone", 1500.00, 5);
-        System.out.println("Produto 1: " + produto1.getNome() + ", Preço: " + produto1.getPreco() + ", Quantidade: " + produto1.getQuantidade());
-        System.out.println("Produto 2: " + produto2.getNome() + ", Preço: " + produto2.getPreco() + ", Quantidade: " + produto2.getQuantidade());
-        System.out.println("Valor total do produto 1: " + produto1.valorTotal());
-        System.out.println("Valor total do produto 2: " + produto2.valorTotal());
-        System.out.println("Valor total dos produtos: " + (produto1.valorTotal() + produto2.valorTotal()));
-        System.out.println("Total de produtos criados: " + Produto.getTotalCriados());
+        Product product1 = new Product("Notebook", 2500.00, 3);
+        Product product2 = new Product("Smartphone", 1500.00, 5);
+        System.out.println("Product 1: " + product1.getName() + ", Price: " + product1.getPrice() + ", Quantity: " + product1.getQuantity());
+        System.out.println("Product 2: " + product2.getName() + ", Price: " + product2.getPrice() + ", Quantity: " + product2.getQuantity());
+        System.out.println("Valor total do product 1: " + product1.totalValue());
+        System.out.println("Valor total do product 2: " + product2.totalValue());
+        System.out.println("Valor total dos products: " + (product1.totalValue() + product2.totalValue()));
+        System.out.println("Total de products criados: " + Product.getTotalCreated());
 
-        Livro livro1 = new Livro("\"Java: Como Programar\"", "Deitel & Deitel", 150.00);
-        Livro livro2 = new Livro("\"Clean Code\"", "Robert C. Martin", 120.00);
-        System.out.println("Livros cadastrados: " + livro1.getTitulo() + " e " + livro2.getTitulo());
-        System.out.println("Total de livros criados: " + Livro.getTotalCriados());
+        Book book1 = new Book("\"Java: Como Programar\"", "Deitel & Deitel", 150.00);
+        Book book2 = new Book("\"Clean Code\"", "Robert C. Martin", 120.00);
+        System.out.println("Registered books: " + book1.getTitle() + " e " + book2.getTitle());
+        System.out.println("Total de books criados: " + Book.getTotalCreated());
         
-        List<Livro> livros = new ArrayList<>();
-        livros.add(livro1);
-        livros.add(livro2);
-        System.out.println("Adicionando mais um livro à lista...");
-        livros.add(new Livro("\"Effective Java\"", "Joshua Bloch", 130.00));
-        System.out.println("Lista de livros cadastrados:");
-        for (Livro livro : livros) {
-            System.out.println("Título: " + livro.getTitulo() + ", Autor: " + livro.getAutor() + ", Preço: " + livro.getPreco());
+        List<Book> books = new ArrayList<>();
+        books.add(book1);
+        books.add(book2);
+        System.out.println("Adicionando mais um book à list...");
+        books.add(new Book("\"Effective Java\"", "Joshua Bloch", 130.00));
+        System.out.println("Lista de books cadastrados:");
+        for (Book book : books) {
+            System.out.println("Title: " + book.getTitle() + ", Author: " + book.getAuthor() + ", Price: " + book.getPrice());
         }
-        System.out.println("Removendo cadastro equivocado...");
-        System.out.println("Total de livros antes da remoção: " + livros.size());
-        livros.remove(2);
-        System.out.println("Total de livros após a remoção: " + livros.size());
+        System.out.println("Removing an incorrect entry...");
+        System.out.println("Total de books antes da remoção: " + books.size());
+        books.remove(2);
+        System.out.println("Total de books após a remoção: " + books.size());
     }
 }
