@@ -37,16 +37,16 @@ The database is in memory, so stored data is not persisted across restarts. This
 
 ### SQL practice
 
-The [PostgreSQL module](09-sql-postgresql/README.md) is separate from the Spring Boot app. Its SQL scripts and example data document hands-on database practice. The schema and database names intentionally retain their original names for compatibility with my local learning database.
+The [PostgreSQL module](09-sql-postgresql/README.md) is separate from the Spring Boot app. Its SQL scripts and example data document hands-on database practice. The exercises and snapshot now use English SQL identifiers. Older local practice databases using Portuguese table names need to be recreated or migrated before running the updated scripts.
 
 ## Notes
 
-- The earliest modules consist of standalone `.java` files. Compile and run each module separately; they are not one Maven project.
+- The earliest modules consist of standalone `.java` files. Compile and run each module separately; they are not one Maven project. The Java class names and learning examples have been translated to English.
 - Module 06 uses Maven and JUnit; module 08 uses Spring Boot and Maven Wrapper.
-- The [GitHub Actions workflow](.github/workflows/testes.yml) executes the Spring Boot tests on push.
+- The [GitHub Actions workflow](.github/workflows/tests.yml) executes the Spring Boot tests on push.
 - Some lessons are unfinished on purpose. This repository is a learning log, not a polished framework or reusable library.
 - [AGENTS.md](AGENTS.md) contains the learning preferences and context used by coding assistants.
 
 ## License
 
-No license has been selected yet. Unless a license is added, the repository is publicly readable but not offered under an open-source reuse license.
+This repository is released under the [MIT License](LICENSE).
