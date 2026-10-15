@@ -9,6 +9,13 @@ target/
 .idea/
 *.iml
 
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
 # Operating-system files
 .DS_Store
 Thumbs.db
