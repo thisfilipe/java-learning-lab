@@ -3,25 +3,25 @@
 -- Exercise 1: Insert Ana into customers, relying on the default fields.
 
 INSERT INTO customers (name, email)
-VALUES ('Ana Souza', 'ana@exemplo.com');
+VALUES ('Ana Souza', 'ana@example.com');
 
 -- Exercise 2: Attempt to insert a duplicate email to observe the UNIQUE constraint. Keep this INSERT commented out afterward.
 
 /*
 INSERT INTO customers (name, email)
-VALUES ('Duplicate Ana', 'ana@exemplo.com');
+VALUES ('Duplicate Ana', 'ana@example.com');
 */
 
 -- Exercise 3: Insert three additional example customers, some with phone numbers.
 
 INSERT INTO customers (name, email, phone)
-VALUES ('Bruno Lima','bruno@exemplo.com', '85999990001');
+VALUES ('Bruno Lima','bruno@example.com', '85999990001');
 
 INSERT INTO customers (name, email)
-VALUES ('Carla Mendes', 'carla@exemplo.com');
+VALUES ('Carla Mendes', 'carla@example.com');
 
 INSERT INTO customers (name, email, phone)
-VALUES ('Diego Alves', 'diego@exemplo.com', '85999990003');
+VALUES ('Diego Alves', 'diego@example.com', '85999990003');
 
 -- Exercise 4: List customers with phone numbers, ordered by name descending.
 
@@ -34,7 +34,7 @@ ORDER BY name DESC;
 
 UPDATE customers
 SET active = false
-WHERE email = 'diego@exemplo.com';
+WHERE email = 'diego@example.com';
 
 -- Exercise 6: Delete only deactivated customers.
 

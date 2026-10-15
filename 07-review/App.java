@@ -12,7 +12,7 @@ public class App {
         System.out.println("Total value of all products: " + (product1.totalValue() + product2.totalValue()));
         System.out.println("Total products created: " + Product.getTotalCreated());
 
-        Book book1 = new Book("\"Java: Como Programar\"", "Deitel & Deitel", 150.00);
+        Book book1 = new Book("\"Java: How to Program\"", "Deitel & Deitel", 150.00);
         Book book2 = new Book("\"Clean Code\"", "Robert C. Martin", 120.00);
         System.out.println("Registered books: " + book1.getTitle() +  " and "  + book2.getTitle());
         System.out.println("Total books created: " + Book.getTotalCreated());

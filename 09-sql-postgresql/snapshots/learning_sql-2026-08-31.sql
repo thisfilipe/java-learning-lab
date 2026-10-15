@@ -138,9 +138,9 @@ ALTER TABLE public.products ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 --
 
 COPY public.customers (id, name, email, active, created_at, phone) FROM stdin;
-1	Ana Souza	ana@exemplo.com	t	2026-08-31 19:45:57.98637	\N
-3	Bruno Lima	bruno@exemplo.com	t	2026-08-31 19:50:25.106774	85999990001
-4	Carla Mendes	carla@exemplo.com	t	2026-08-31 19:50:25.106774	\N
+1	Ana Souza	ana@example.com	t	2026-08-31 19:45:57.98637	\N
+3	Bruno Lima	bruno@example.com	t	2026-08-31 19:50:25.106774	85999990001
+4	Carla Mendes	carla@example.com	t	2026-08-31 19:50:25.106774	\N
 \.
 
 
